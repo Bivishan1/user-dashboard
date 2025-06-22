@@ -129,7 +129,7 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
       className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer"
       onClick={() => setSelectedCard(experience)}
     >
-      <div className="flex items-start space-x-3">
+      <div className="flex justify-around items-start space-x-3">
         <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-white font-semibold">
           {experience.title.charAt(0)}
         </div>
@@ -170,7 +170,7 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
       <div className="flex justify-between mb-4">
         <div>
           <div className="text-sm text-gray-400 uppercase tracking-wide mb-2">
-            {experience.type} | Oct 2020
+            {experience.date} 
           </div>
           <h2 className="text-2xl font-bold mb-2">{experience.title}</h2>
           <p className="text-gray-300">{experience.details.programName}</p>
@@ -288,35 +288,6 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
           {currentExperiences.map((experience) => (
             <Dialog.Root key={experience.id}>
-              <Dialog.Trigger asChild>
-                <div className="rounded-lg border bg-card text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow border-gray-200 p-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <span className="text-blue-700 font-semibold">
-                        {experience.tags}
-                      </span>
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-gray-900 truncate">
-                        {experience.location}
-                      </h4>
-                      <div className="flex items-center space-x-1 text-sm text-gray-600 mt-1">
-                        <Building2 className="h-3 w-3" />
-                        <span>{experience.organization}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-sm text-gray-500 mt-1">
-                        <MapPin className="h-3 w-3" />
-                        <span>{experience.location}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-sm text-gray-500 mt-1">
-                        <Calendar className="h-3 w-3" />
-                        <span>{experience.date}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Dialog.Trigger>
 
               <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />

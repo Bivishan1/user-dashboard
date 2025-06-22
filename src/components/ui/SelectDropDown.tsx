@@ -1,27 +1,27 @@
 // components/SelectDropdown.tsx
-import React from 'react'
+import React from "react";
 
 interface Option {
-  label: string
-  value: string
+  label: string;
+  value: string;
 }
 
 interface SelectDropdownProps {
-  id?: string
-  label?: string
-  options: Option[]
-  value: string
-  onChange: (value: string) => void
-  className?: string
+  id?: string;
+  label?: string;
+  options: Option[];
+  value: string;
+  onChange: (value: string) => void;
+  className?: string;
 }
 
 export const SelectDropdown: React.FC<SelectDropdownProps> = ({
-  id = 'select',
+  id = "select",
   label,
-  options=[],
+  options = [],
   value,
   onChange,
-  className = 'cursor-pointer',
+  className = "cursor-pointer",
 }) => {
   return (
     <div className={`max-w-sm mx-auto ${className}`}>
@@ -40,11 +40,15 @@ export const SelectDropdown: React.FC<SelectDropdownProps> = ({
         className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value} className=''>
+          <option
+            key={opt.value}
+            value={opt.value}
+            className="text-[10px] sm:text-base"
+          >
             {opt.label}
           </option>
         ))}
       </select>
     </div>
-  )
-}
+  );
+};
