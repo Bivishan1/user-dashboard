@@ -170,7 +170,7 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
       <div className="flex justify-between mb-4">
         <div>
           <div className="text-sm text-gray-400 uppercase tracking-wide mb-2">
-            {experience.date} 
+            {experience.date}
           </div>
           <h2 className="text-2xl font-bold mb-2">{experience.title}</h2>
           <p className="text-gray-300">{experience.details.programName}</p>
@@ -261,162 +261,29 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
 
       {/* content area */}
 
-      <div className="p-6">
-        {selectedCard ? (
-          <DetailPanel
-            experience={selectedCard}
-            onClose={() => setSelectedCard(null)}
-          />
-        ) : (
-          <div className="space-y-4">
-            {currentExperiences.length > 0 ? (
-              currentExperiences.map((experience) => (
-                <ExperienceCard key={experience.id} experience={experience} />
-              ))
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <GraduationCap className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                <p>No {activeTab.toLowerCase()} experience found</p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
       {/* dialog box */}
       <div className="p-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          {currentExperiences.map((experience) => (
-            <Dialog.Root key={experience.id}>
-
-              <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-                <Dialog.Content className="fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%] bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-                  {/* Dark header section */}
-                  <Dialog.Title className="m-0 text-[17px] font-medium text-center p-2 border-b">
-                    Details of {experience.title} at {experience.organization}
-                  </Dialog.Title>
-                  <div className="bg-gray-800 text-white p-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                          <span className="text-blue-700 font-semibold">
-                            {experience.tags}
-                          </span>
-                        </div>
-                        <div>
-                          <div className="text-sm text-gray-300 uppercase tracking-wide">
-                            {experience.title} | PROGRAM
-                          </div>
-                          <h3 className="text-2xl font-semibold">
-                            {experience.title}
-                          </h3>
-                          <p className="text-gray-300">
-                            {experience.organization}
-                          </p>
-                          <div className="flex items-center space-x-4 mt-2">
-                            <div className="flex items-center space-x-1">
-                              <Calendar className="h-4 w-4" />
-                              <span className="text-sm">{experience.date}</span>
-                            </div>
-                          </div>
-                          <div className="flex space-x-2 mt-3">
-                            <span className="inline-flex h-6 select-none items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-gray-600 text-white hover:bg-gray-700">
-                              {experience.title}
-                            </span>
-                            <span className="inline-flex h-6 select-none items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-gray-600 text-white hover:bg-gray-700">
-                              Rock Singer
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <Dialog.Close asChild>
-                        <button className="text-gray-400 hover:text-white">
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
-                      </Dialog.Close>
-                    </div>
+        <div className="space-y-4">
+          {currentExperiences.length > 0 ? (
+            currentExperiences.map((experience) => (
+              <div key={experience.id}>
+                <ExperienceCard experience={experience} />
+                {selectedCard && selectedCard.id === experience.id && (
+                  <div className="mt-4">
+                    <DetailPanel
+                      experience={selectedCard}
+                      onClose={() => setSelectedCard(null)}
+                    />
                   </div>
-
-                  {/* White content section */}
-                  <div className="p-6">
-                    <div className="grid gap-6 md:grid-cols-2">
-                      <div>
-                        <h4 className="font-medium text-gray-900 mb-3 text-sm uppercase tracking-wide text-gray-500">
-                          PROGRAM INFO
-                        </h4>
-                        <div className="space-y-3">
-                          <div>
-                            <p className="text-sm text-gray-500">
-                              Name of the Program
-                            </p>
-                            <p className="font-medium text-gray-900">
-                              {experience.organization}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-500">
-                              Young Artist Program
-                            </p>
-                            <p className="font-medium text-gray-900">
-                              {experience.organization}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-500">Location</p>
-                            <p className="font-medium text-gray-900">
-                              {experience.organization} House, North Pineapple
-                              Ave, {experience.location}, USA
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="font-medium text-gray-900 mb-3 text-sm uppercase tracking-wide text-gray-500">
-                          INSTITUTION INFO
-                        </h4>
-                        <div className="space-y-3">
-                          <div>
-                            <p className="text-sm text-gray-500">
-                              Name of the Institute
-                            </p>
-                            <p className="font-medium text-gray-900">
-                              {experience.organization}
-                            </p>
-                          </div>
-                        </div>
-
-                        <h4 className="font-medium text-gray-900 mb-3 mt-6 text-sm uppercase tracking-wide text-gray-500">
-                          STUDY INFO
-                        </h4>
-                        <div className="space-y-3">
-                          <div>
-                            <p className="text-sm text-gray-500">Position</p>
-                            <p className="font-medium text-gray-900">
-                              {experience.title}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Dialog.Content>
-              </Dialog.Portal>
-            </Dialog.Root>
-          ))}
+                )}
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-gray-500">
+              <GraduationCap className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+              <p>No {activeTab.toLowerCase()} experience found</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -155,6 +155,13 @@ const [activeExperienceTab, setActiveExperienceTab] = useState("Training");
     fetchData();
   }, []);
 
+  // Reset sub-tab to "Training" whenever Experience section is activated
+useEffect(() => {
+  if (activeSection === "experience") {
+    setActiveExperienceTab("Training");
+  }
+}, [activeSection]);
+
   // Section mapping
   const sectionMap: Record<string, React.ReactElement> = {
     about: <AboutSection />,
