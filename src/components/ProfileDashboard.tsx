@@ -1,9 +1,9 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import TopNavigation from './TopNavigation';
-import SidebarNavigation from './SidebarNavigation';
-import ProfileHeader from './ProfileHeader';
-import ExperienceSection from './ExperienceSection';
+"use client";
+import React, { useState, useEffect } from "react";
+import TopNavigation from "./TopNavigation";
+import SidebarNavigation from "./SidebarNavigation";
+import ProfileHeader from "./ProfileHeader";
+import ExperienceSection from "./ExperienceSection";
 // import { ToastMessage } from './ui/toast';
 
 interface User {
@@ -37,12 +37,39 @@ interface Post {
   body: string;
 }
 
+interface ExperienceDetails {
+  programName: string;
+  position: string;
+  location: string;
+  institution: string;
+  date: string;
+}
+
+interface Experience {
+  id: number;
+  title: string;
+  organization: string;
+  location: string;
+  date: string;
+  type: string;
+  tags: string[];
+  details: ExperienceDetails;
+}
+
+const highlights = [
+  "Featured soloist at Carnegie Hall",
+  "Winner of National Vocal Competition 2022",
+  "Lead vocalist for Metropolitan Opera",
+  "Master class instructor at Julliard",
+];
+
 // Separate section components
 const AboutSection = () => (
   <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
     <h3 className="text-xl font-semibold text-gray-900 mb-4">About</h3>
     <p className="text-gray-700 leading-relaxed">
-      Professional vocalist and performance coach with over 10 years of experience...
+      Professional vocalist and performance coach with over 10 years of
+      experience...
     </p>
   </div>
 );
@@ -52,7 +79,10 @@ const MediaSection = () => (
     <h3 className="text-xl font-semibold text-gray-900 mb-4">Media</h3>
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {[1, 2, 3, 4, 5, 6].map((item) => (
-        <div key={item} className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+        <div
+          key={item}
+          className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center"
+        >
           <span className="text-gray-500">Media {item}</span>
         </div>
       ))}
@@ -64,13 +94,11 @@ const HighlightsSection = () => (
   <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
     <h3 className="text-xl font-semibold text-gray-900 mb-4">Highlights</h3>
     <div className="space-y-4">
-      {[
-        'Featured soloist at Carnegie Hall',
-        'Winner of National Vocal Competition 2022',
-        'Lead vocalist for Metropolitan Opera',
-        'Master class instructor at Julliard',
-      ].map((highlight, index) => (
-        <div key={index} className="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg">
+      {highlights.map((highlight, index) => (
+        <div
+          key={index}
+          className="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg"
+        >
           <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
           <span className="text-gray-800">{highlight}</span>
         </div>
@@ -94,25 +122,31 @@ const LoadingSkeleton = () => (
 const ProfileDashboard: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [activeSection, setActiveSection] = useState('experience');
+  const [activeSection, setActiveSection] = useState("experience");
+const [activeExperienceTab, setActiveExperienceTab] = useState("Training");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [selectedCard, setSelectedCard] = useState<Experience | null>(null);
 
   // Fetch data with cleanup
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         const [userData, postsData] = await Promise.all([
-          fetch('https://jsonplaceholder.typicode.com/users/1').then(res => res.json()),
-          fetch('https://jsonplaceholder.typicode.com/posts?userId=1').then(res => res.json())
+          fetch("https://jsonplaceholder.typicode.com/users/1").then((res) =>
+            res.json()
+          ),
+          fetch("https://jsonplaceholder.typicode.com/posts?userId=1").then(
+            (res) => res.json()
+          ),
         ]);
 
         setUser(userData);
         setPosts(postsData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -126,7 +160,11 @@ const ProfileDashboard: React.FC = () => {
     about: <AboutSection />,
     media: <MediaSection />,
     highlights: <HighlightsSection />,
-    experience: <ExperienceSection posts={posts} />,
+    experience: <ExperienceSection  
+        activeTab={activeExperienceTab}
+        setActiveTab={setActiveExperienceTab}
+        selectedCard={selectedCard}
+        setSelectedCard={setSelectedCard}   />,
   };
 
   // Get current section content
@@ -135,7 +173,7 @@ const ProfileDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <TopNavigation onMenuToggle={() => setSidebarOpen(true)} />
-      
+
       <div className="flex">
         <SidebarNavigation
           activeSection={activeSection}
@@ -143,7 +181,7 @@ const ProfileDashboard: React.FC = () => {
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
         />
-        
+
         <main className="flex-1 p-4 lg:p-6">
           <div className="max-w-6xl mx-auto space-y-6">
             <ProfileHeader user={user} />

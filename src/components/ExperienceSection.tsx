@@ -1,13 +1,20 @@
-'use client';
-import React, { useState } from 'react';
-import { MapPin, Calendar, Building2 } from 'lucide-react';
-import * as Dialog from '@radix-ui/react-dialog';
+"use client";
+import React, { useState } from "react";
+import { MapPin, Calendar, Building2, X, GraduationCap } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 interface Post {
   id: number;
   title: string;
   body: string;
   userId: number;
+}
+interface ExperienceDetails {
+  programName: string;
+  position: string;
+  location: string;
+  institution: string;
+  date: string;
 }
 
 interface Experience {
@@ -17,81 +24,282 @@ interface Experience {
   location: string;
   date: string;
   type: string;
-  role: string;
-  description: string;
-  badge: string;
-  programName: string;
-  institutionName: string;
-  position: string;
+  tags: string[];
+  details: ExperienceDetails;
 }
 
 interface ExperienceSectionProps {
-  posts: Post[];
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  selectedCard: Experience | null;
+  setSelectedCard: (card: Experience | null) => void;
 }
 
-const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
-  const [activeTab, setActiveTab] = useState('Training');
-  
-  const tabs = ['All', 'Performance', 'Training', 'Accolades', 'Education', 'Job Titles', 'Commissions', 'Masterclass'];
+const ExperienceSection: React.FC<ExperienceSectionProps> = ({
+  activeTab,
+  setActiveTab,
+  selectedCard,
+  setSelectedCard,
+}) => {
+  // Mock data for experience cards
+  const experienceData: {
+    Training: Experience[];
+    Performance: Experience[];
+    All: Experience[];
+    [key: string]: Experience[];
+  } = {
+    Training: [
+      {
+        id: 1,
+        title: "Studio Artist",
+        organization: "Sarasota Opera Young Artist Program",
+        location: "Sarasota Opera",
+        date: "Oct-2017",
+        type: "Young Artist Program",
+        tags: ["Church Singer", "Rock Singer"],
+        details: {
+          programName: "Sarasota Opera Young Artist Program",
+          position: "Studio Artist",
+          location:
+            "Sarasota Opera House, North Pineapple Ave, Sarasota, FL, USA",
+          institution: "Sarasota Opera Young Artist Program",
+          date: "Oct 2020",
+        },
+      },
+      {
+        id: 2,
+        title: "Creative Director",
+        organization: "Sarasota Opera Creative Director Program",
+        location: "St. Petersburg Opera",
+        date: "Oct-2018 to Nov 2018",
+        type: "Young Artist Program",
+        tags: ["Creative Director", "Program"],
+        details: {
+          programName: "Creative Director Development",
+          position: "Creative Director",
+          location: "St. Petersburg Opera House, FL, USA",
+          institution: "Sarasota Opera",
+          date: "Oct 2018 - Nov 2018",
+        },
+      },
+    ],
+    Performance: [
+      {
+        id: 3,
+        title: "Lead Vocalist",
+        organization: "Metropolitan Opera House",
+        location: "New York, NY",
+        date: "Jan-2019",
+        type: "Performance",
+        tags: ["Lead Singer", "Opera"],
+        details: {
+          programName: "La Bohème Production",
+          position: "Lead Vocalist",
+          location: "Metropolitan Opera House, New York, NY, USA",
+          institution: "Metropolitan Opera",
+          date: "Jan 2019",
+        },
+      },
+    ],
+    All: [],
+  };
 
-  const experienceData: Experience[] = posts.map((post, index) => ({
-    id: post.id,
-    title: post.title.charAt(0).toUpperCase() + post.title.slice(1),
-    organization: ['Sarasota Opera', 'Metropolitan Opera House', 'Lincoln Center', 'Carnegie Hall', 'Boston Symphony'][index % 5],
-    location: ['Sarasota, FL', 'New York, NY', 'New York, NY', 'New York, NY', 'Boston, MA'][index % 5],
-    date: 'Oct 2020',
-    type: tabs[Math.floor(Math.random() * tabs.length)],
-    role: 'Church Singer',
-    description: post.body,
-    badge: ['S', 'M', 'L', 'C', 'B'][index % 5],
-    programName: 'Young Artist Program',
-    institutionName: ['Sarasota Opera', 'Metropolitan Opera House', 'Lincoln Center', 'Carnegie Hall', 'Boston Symphony'][index % 5],
-    position: ['Studio Artist', 'Creative Director', 'Lead Vocalist', 'Featured Soloist', 'Principal Singer'][index % 5]
-  }));
+  // Initialize All tab with all experiences
+  experienceData.All = [
+    ...experienceData.Training,
+    ...experienceData.Performance,
+  ];
 
-  const filteredExperiences = activeTab === 'All' 
-    ? experienceData 
-    : experienceData.filter(exp => exp.type === activeTab);
+  const tabs = [
+    { name: "All" },
+    { name: "Performance" },
+    { name: "Training" },
+    { name: "Accolades" },
+    { name: "Education" },
+    { name: "Job Titles" },
+    { name: "Commissions" },
+    { name: "Masterclass" },
+  ];
+
+  const currentExperiences =
+    experienceData[activeTab as keyof typeof experienceData] || [];
+
+  const ExperienceCard = ({ experience }: { experience: Experience }) => (
+    <div
+      className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer"
+      onClick={() => setSelectedCard(experience)}
+    >
+      <div className="flex items-start space-x-3">
+        <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-white font-semibold">
+          {experience.title.charAt(0)}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg font-semibold text-gray-900 truncate">
+            {experience.title}
+          </h3>
+          <p className="text-gray-600 text-sm">{experience.organization}</p>
+          <div className="flex items-center text-gray-500 text-sm mt-1">
+            <MapPin className="w-4 h-4 mr-1" />
+            <span className="mr-4">{experience.location}</span>
+            <Calendar className="w-4 h-4 mr-1" />
+            <span>{experience.date}</span>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {experience.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const DetailPanel = ({
+    experience,
+    onClose,
+  }: {
+    experience: Experience;
+    onClose: () => void;
+  }) => (
+    <div className="bg-gray-800 text-white p-6 rounded-lg">
+      <div className="flex justify-between mb-4">
+        <div>
+          <div className="text-sm text-gray-400 uppercase tracking-wide mb-2">
+            {experience.type} | Oct 2020
+          </div>
+          <h2 className="text-2xl font-bold mb-2">{experience.title}</h2>
+          <p className="text-gray-300">{experience.details.programName}</p>
+        </div>
+        <button onClick={onClose} className="text-gray-400 hover:text-white">
+          <X className="w-6 h-6" />
+        </button>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-6">
+        {experience.tags.map((tag, index) => (
+          <span
+            key={index}
+            className="px-3 py-1 bg-gray-700 text-gray-200 text-sm rounded-full"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-sm font-medium text-gray-400 mb-1">
+            PROGRAM INFO
+          </h3>
+          <div className="space-y-2">
+            <div>
+              <p className="text-sm text-gray-400">Name of the Program</p>
+              <p className="text-white">{experience.details.programName}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">Young Artist Program</p>
+              <p className="text-white">{experience.details.programName}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-400">Location</p>
+              <p className="text-white">{experience.details.location}</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-medium text-gray-400 mb-1">
+            INSTITUTION INFO
+          </h3>
+          <div>
+            <p className="text-sm text-gray-400">Name of the Institute</p>
+            <p className="text-white">{experience.details.institution}</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-medium text-gray-400 mb-1">STUDY INFO</h3>
+          <div>
+            <p className="text-sm text-gray-400">Position</p>
+            <p className="text-white">{experience.details.position}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="p-6 border-b border-gray-200">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Experience</h3>
-        
+
         {/* Tabs */}
         <div className="flex flex-wrap gap-2">
           {tabs.map((tab) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
+              key={tab.name}
+              onClick={() => setActiveTab(tab.name)}
               className={`
                 px-4 py-2 rounded-full text-sm font-medium transition-colors
-                ${activeTab === tab 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ${
+                  activeTab === tab.name
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }
               `}
             >
-              {tab}
+              {tab.name}
             </button>
           ))}
         </div>
       </div>
 
+      {/* content area */}
+
+      <div className="p-6">
+        {selectedCard ? (
+          <DetailPanel
+            experience={selectedCard}
+            onClose={() => setSelectedCard(null)}
+          />
+        ) : (
+          <div className="space-y-4">
+            {currentExperiences.length > 0 ? (
+              currentExperiences.map((experience) => (
+                <ExperienceCard key={experience.id} experience={experience} />
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <GraduationCap className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p>No {activeTab.toLowerCase()} experience found</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* dialog box */}
       <div className="p-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          {filteredExperiences.map((experience) => (
+          {currentExperiences.map((experience) => (
             <Dialog.Root key={experience.id}>
               <Dialog.Trigger asChild>
                 <div className="rounded-lg border bg-card text-card-foreground shadow-sm cursor-pointer hover:shadow-md transition-shadow border-gray-200 p-4">
                   <div className="flex items-start space-x-3">
                     <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <span className="text-blue-700 font-semibold">{experience.badge}</span>
+                      <span className="text-blue-700 font-semibold">
+                        {experience.tags}
+                      </span>
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
                       <h4 className="font-semibold text-gray-900 truncate">
-                        {experience.position}
+                        {experience.location}
                       </h4>
                       <div className="flex items-center space-x-1 text-sm text-gray-600 mt-1">
                         <Building2 className="h-3 w-3" />
@@ -115,24 +323,26 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
                 <Dialog.Content className="fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%] bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
                   {/* Dark header section */}
                   <Dialog.Title className="m-0 text-[17px] font-medium text-center p-2 border-b">
-					Details of {experience.position} at {experience.organization}
-				</Dialog.Title>
+                    Details of {experience.title} at {experience.organization}
+                  </Dialog.Title>
                   <div className="bg-gray-800 text-white p-6">
                     <div className="flex items-start justify-between">
-
-                      
                       <div className="flex items-center space-x-3">
-
-                        
                         <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <span className="text-blue-700 font-semibold">{experience.badge}</span>
-                    </div>
+                          <span className="text-blue-700 font-semibold">
+                            {experience.tags}
+                          </span>
+                        </div>
                         <div>
                           <div className="text-sm text-gray-300 uppercase tracking-wide">
-                            {experience.programName} | PROGRAM
+                            {experience.title} | PROGRAM
                           </div>
-                          <h3 className="text-2xl font-semibold">{experience.position}</h3>
-                          <p className="text-gray-300">{experience.organization}</p>
+                          <h3 className="text-2xl font-semibold">
+                            {experience.title}
+                          </h3>
+                          <p className="text-gray-300">
+                            {experience.organization}
+                          </p>
                           <div className="flex items-center space-x-4 mt-2">
                             <div className="flex items-center space-x-1">
                               <Calendar className="h-4 w-4" />
@@ -141,7 +351,7 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
                           </div>
                           <div className="flex space-x-2 mt-3">
                             <span className="inline-flex h-6 select-none items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-gray-600 text-white hover:bg-gray-700">
-                              {experience.role}
+                              {experience.title}
                             </span>
                             <span className="inline-flex h-6 select-none items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-gray-600 text-white hover:bg-gray-700">
                               Rock Singer
@@ -151,14 +361,24 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
                       </div>
                       <Dialog.Close asChild>
                         <button className="text-gray-400 hover:text-white">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
                           </svg>
                         </button>
                       </Dialog.Close>
                     </div>
                   </div>
-                  
+
                   {/* White content section */}
                   <div className="p-6">
                     <div className="grid gap-6 md:grid-cols-2">
@@ -168,38 +388,55 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
                         </h4>
                         <div className="space-y-3">
                           <div>
-                            <p className="text-sm text-gray-500">Name of the Program</p>
-                            <p className="font-medium text-gray-900">{experience.organization}</p>
+                            <p className="text-sm text-gray-500">
+                              Name of the Program
+                            </p>
+                            <p className="font-medium text-gray-900">
+                              {experience.organization}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-sm text-gray-500">Young Artist Program</p>
-                            <p className="font-medium text-gray-900">{experience.organization}</p>
+                            <p className="text-sm text-gray-500">
+                              Young Artist Program
+                            </p>
+                            <p className="font-medium text-gray-900">
+                              {experience.organization}
+                            </p>
                           </div>
                           <div>
                             <p className="text-sm text-gray-500">Location</p>
-                            <p className="font-medium text-gray-900">{experience.organization} House, North Pineapple Ave, {experience.location}, USA</p>
+                            <p className="font-medium text-gray-900">
+                              {experience.organization} House, North Pineapple
+                              Ave, {experience.location}, USA
+                            </p>
                           </div>
                         </div>
                       </div>
-                      
+
                       <div>
                         <h4 className="font-medium text-gray-900 mb-3 text-sm uppercase tracking-wide text-gray-500">
                           INSTITUTION INFO
                         </h4>
                         <div className="space-y-3">
                           <div>
-                            <p className="text-sm text-gray-500">Name of the Institute</p>
-                            <p className="font-medium text-gray-900">{experience.organization}</p>
+                            <p className="text-sm text-gray-500">
+                              Name of the Institute
+                            </p>
+                            <p className="font-medium text-gray-900">
+                              {experience.organization}
+                            </p>
                           </div>
                         </div>
-                        
+
                         <h4 className="font-medium text-gray-900 mb-3 mt-6 text-sm uppercase tracking-wide text-gray-500">
                           STUDY INFO
                         </h4>
                         <div className="space-y-3">
                           <div>
                             <p className="text-sm text-gray-500">Position</p>
-                            <p className="font-medium text-gray-900">{experience.position}</p>
+                            <p className="font-medium text-gray-900">
+                              {experience.title}
+                            </p>
                           </div>
                         </div>
                       </div>
