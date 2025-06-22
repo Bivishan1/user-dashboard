@@ -40,7 +40,7 @@ export const SelectDropdown: React.FC<SelectDropdownProps> = ({
         className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
+          <option key={opt.value} value={opt.value} className=''>
             {opt.label}
           </option>
         ))}

@@ -14,7 +14,7 @@ export const ToastMessage: React.FC<ToastMessageProps> = ({
   message,
   description,
   onClose,
-  duration = 10000, // default 10 seconds
+  duration = 3000, // default 10 seconds
 }) => {
   const [visible, setVisible] = useState(true)
 

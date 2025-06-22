@@ -67,7 +67,7 @@ const ProfileDashboard: React.FC = () => {
         setUser(userData)
         setPosts(postsData)
 
-        // ✅ Show success toast
+        //  Show success toast
         setToastData({
           message: 'Data loaded successfully',
           description: 'Profile and experience data has been fetched.',
@@ -75,7 +75,7 @@ const ProfileDashboard: React.FC = () => {
       } catch (error) {
         console.error('Error fetching data:', error)
 
-        // ✅ Show error toast
+        // Show error toast
         setToastData({
           message: 'Error loading data',
           description: 'Failed to fetch profile data. Please try again.',
@@ -88,65 +88,70 @@ const ProfileDashboard: React.FC = () => {
     fetchData()
   }, [])
 
+//section components
+const sectionComponents: Record<string, React.ReactElement> = {
+  about: (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 className="text-xl font-semibold text-gray-900 mb-4">About</h3>
+      <p className="text-gray-700 leading-relaxed">
+        Professional vocalist and performance coach with over 10 years of experience in classical and contemporary music. 
+        Specialized in church music, opera, and vocal training. Based in Danbury, CT, available for performances, 
+        workshops, and private instruction.
+      </p>
+    </div>
+  ),
+  media: (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 className="text-xl font-semibold text-gray-900 mb-4">Media</h3>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {[1, 2, 3, 4, 5, 6].map((item) => (
+          <div key={item} className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+            <span className="text-gray-500">Media {item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  ),
+  highlights: (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 className="text-xl font-semibold text-gray-900 mb-4">Highlights</h3>
+      <div className="space-y-4">
+        {[
+          'Featured soloist at Carnegie Hall',
+          'Winner of National Vocal Competition 2022',
+          'Lead vocalist for Metropolitan Opera',
+          'Master class instructor at Julliard',
+        ].map((highlight, index) => (
+          <div key={index} className="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg">
+            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+            <span className="text-gray-800">{highlight}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+
+
   const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="animate-pulse space-y-4">
-              <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-              <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-              <div className="h-4 bg-gray-300 rounded w-5/6"></div>
-            </div>
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+            <div className="h-4 bg-gray-300 rounded w-5/6"></div>
           </div>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
-    switch (activeSection) {
-      case 'about':
-        return (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">About</h3>
-            <p className="text-gray-700 leading-relaxed">
-              Professional vocalist and performance coach with over 10 years of experience in classical and contemporary music. 
-              Specialized in church music, opera, and vocal training. Based in Danbury, CT, available for performances, 
-              workshops, and private instruction.
-            </p>
-          </div>
-        );
-      case 'media':
-        return (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Media</h3>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <div key={item} className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
-                  <span className="text-gray-500">Media {item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      case 'highlights':
-        return (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Highlights</h3>
-            <div className="space-y-4">
-              {['Featured soloist at Carnegie Hall', 'Winner of National Vocal Competition 2022', 'Lead vocalist for Metropolitan Opera', 'Master class instructor at Julliard'].map((highlight, index) => (
-                <div key={index} className="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                  <span className="text-gray-800">{highlight}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      case 'experience':
-      default:
-        return <ExperienceSection posts={posts} />;
-    }
-  };
+  return sectionComponents[activeSection] ?? <ExperienceSection posts={posts} />;
+};
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -160,7 +165,7 @@ const ProfileDashboard: React.FC = () => {
           onClose={() => setSidebarOpen(false)}
         />
         
-        <main className="flex-1 lg:ml-64 p-4 lg:p-6">
+        <main className="flex-1 p-4 lg:p-6">
           <div className="max-w-6xl mx-auto space-y-6">
             <ProfileHeader user={user} />
             {renderContent()}

@@ -30,7 +30,7 @@ interface ExperienceSectionProps {
 }
 
 const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
-  const [activeTab, setActiveTab] = useState('Training');
+  const [activeTab, setActiveTab] = useState('All');
   
   const tabs = ['All', 'Performance', 'Training', 'Accolades', 'Education', 'Job Titles', 'Commissions', 'Masterclass'];
 
@@ -111,15 +111,18 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
               </Dialog.Trigger>
 
               <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 z-50" />
+                <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
                 <Dialog.Content className="fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%] bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
                   {/* Dark header section */}
+                  <Dialog.Title className="m-0 text-[17px] font-medium text-center p-2 border-b">
+					Details of {experience.position} at {experience.organization}
+				</Dialog.Title>
                   <div className="bg-gray-800 text-white p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                          <span className="text-white font-semibold text-lg">{experience.badge}</span>
-                        </div>
+                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <span className="text-blue-700 font-semibold">{experience.badge}</span>
+                    </div>
                         <div>
                           <div className="text-sm text-gray-300 uppercase tracking-wide">
                             {experience.programName} | PROGRAM
