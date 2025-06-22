@@ -30,7 +30,7 @@ interface ExperienceSectionProps {
 }
 
 const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
-  const [activeTab, setActiveTab] = useState('All');
+  const [activeTab, setActiveTab] = useState('Training');
   
   const tabs = ['All', 'Performance', 'Training', 'Accolades', 'Education', 'Job Titles', 'Commissions', 'Masterclass'];
 
@@ -119,7 +119,11 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ posts }) => {
 				</Dialog.Title>
                   <div className="bg-gray-800 text-white p-6">
                     <div className="flex items-start justify-between">
+
+                      
                       <div className="flex items-center space-x-3">
+
+                        
                         <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                       <span className="text-blue-700 font-semibold">{experience.badge}</span>
                     </div>

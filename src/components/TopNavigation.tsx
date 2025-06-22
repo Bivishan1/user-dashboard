@@ -38,14 +38,11 @@ const [selectedRole, setSelectedRole] = useState('Church Singer')
           { label: 'Music Director', value: 'MD' },
         ]}
       />
-
-        <div className="hidden sm:flex items-center ">
        
-          <div className="hidden sm:block">
+          <div className="hidden sm:flex items-center">
           <span className="text-sm text-gray-600 bg-gray-100 p-3 rounded-full">
             $100 - $400 / per group workshop
           </span>
-        </div>
         </div>
 
         <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white">
