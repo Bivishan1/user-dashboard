@@ -26,9 +26,9 @@ const [selectedRole, setSelectedRole] = useState('Church Singer')
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-7">
+
         <SelectDropdown
-        label="Select a role"
         value={selectedRole}
         onChange={setSelectedRole}
         options={[
@@ -39,16 +39,16 @@ const [selectedRole, setSelectedRole] = useState('Church Singer')
         ]}
       />
 
-        <div className="hidden sm:flex items-center space-x-3 bg-gray-50 p-3 rounded-lg border">
+        <div className="hidden sm:flex items-center ">
        
           <div className="hidden sm:block">
-          <span className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+          <span className="text-sm text-gray-600 bg-gray-100 p-3 rounded-full">
             $100 - $400 / per group workshop
           </span>
         </div>
         </div>
 
-        <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white">
+        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white">
           Book Now
         </button>
       </div>

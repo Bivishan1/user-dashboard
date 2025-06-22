@@ -21,7 +21,7 @@ export const SelectDropdown: React.FC<SelectDropdownProps> = ({
   options=[],
   value,
   onChange,
-  className = '',
+  className = 'cursor-pointer',
 }) => {
   return (
     <div className={`max-w-sm mx-auto ${className}`}>
@@ -37,7 +37,7 @@ export const SelectDropdown: React.FC<SelectDropdownProps> = ({
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        className="cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
