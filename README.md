@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# User Dashboard
+
+A responsive professional profile dashboard built with Next.js, React, and Tailwind CSS.
+
+## Features
+
+- 🎭 **Role-based Navigation**: Switch between different professional roles
+- 📱 **Responsive Design**: Optimized for desktop, tablet, and mobile
+- 🔍 **Tabbed Experience Section**: Filter experiences by category
+- 📋 **Detailed View**: Click on experience cards for detailed information
+- 🎨 **Modern UI**: Clean and professional design with Tailwind CSS
+- 🚀 **Fast Performance**: Built with Next.js for optimal performance
+
+## Tech Stack
+
+- **Framework**: Next.js 14
+- **Frontend**: React 18
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Data**: JSONPlaceholder API
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd profile-dashboard
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+### Netlify Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Build the project:
+```bash
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Deploy the `out` folder to Netlify or connect your GitHub repository to Netlify for automatic deployments.
 
-## Deploy on Vercel
+### Environment Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a `.env.local` file for any environment-specific variables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```env
+NEXT_PUBLIC_API_URL=https://jsonplaceholder.typicode.com
+```
+
+## Project Structure
+
+```
+├── src
+│   ├── app
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── ExperienceSection.tsx
+│   │   ├── ProfileDashboard.tsx
+│   │   ├── ProfileHeader.tsx
+│   │   ├── SidebarNavigation.tsx
+│   │   ├── TopNavigation.tsx
+│   │   └── ui
+│   │       ├── Avatar.tsx
+│   │       ├── Button.tsx
+│   │       ├── SelectDropDown.tsx
+│   │       └── toast.tsx
+│   ├── types
+│   │   ├── experience.ts
+│   │   ├── post.ts
+│   │   ├── profile.ts
+│   │   ├── types.ts
+│   │   └── user.ts
+│   └── utils
+│       └── fetchData.ts
+└── tsconfig.json
+```
+
+## API Integration
+
+The dashboard fetches data from:
+- User Profile: `https://jsonplaceholder.typicode.com/users/1`
+- Posts/Experiences: `https://jsonplaceholder.typicode.com/posts?userId=1`
+
+## Key Components
+
+### Layout Component
+- Top navigation with role dropdown and Book Now button
+- Collapsible sidebar navigation
+- Responsive design with mobile menu
+
+### ProfileHeader Component  
+- User avatar with initials
+- Name and location display
+- Verification badge
+
+### ExperienceSection Component
+- Tabbed interface for filtering experiences
+- Grid layout of experience cards
+- Modal detail view for selected experiences
+
+## Customization
+
+
+```javascript
+const roles = ['Church Singer', 'Opera Singer', 'Voice Coach', 'Music Director', 'New Role']
+```
+
+### Modifying Experience Categories
+Update the `tabs` array in `components/ExperienceSection.js`:
+
+```javascript
+const tabs = ['All', 'Performance', 'Training', 'New Category']
+```
+
+### Styling Changes
+All styles use Tailwind CSS classes. Modify the `tailwind.config.js` for theme customization.
