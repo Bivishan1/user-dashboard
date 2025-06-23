@@ -6,7 +6,7 @@ import ProfileHeader from "./ProfileHeader";
 import ExperienceSection from "./ExperienceSection";
 // import { ToastMessage } from './ui/toast';
 
- interface User {
+export interface User {
   id: number;
   name: string;
   username: string;
@@ -16,9 +16,26 @@ import ExperienceSection from "./ExperienceSection";
     suite: string;
     city: string;
     zipcode: string;
+    geo: {
+      lat: string;
+      lng: string;
+    };
+  };
+  phone: string;
+  website: string;
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
   };
 }
 
+export interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 
 interface ExperienceDetails {
   programName: string;
@@ -106,6 +123,7 @@ const LoadingSkeleton = () => (
 
 const ProfileDashboard: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [activeSection, setActiveSection] = useState("experience");
   const [activeExperienceTab, setActiveExperienceTab] = useState("Training");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -118,13 +136,17 @@ const ProfileDashboard: React.FC = () => {
       try {
         setLoading(true);
 
-        const [userData] = await Promise.all([
+        const [userData, postsData] = await Promise.all([
           fetch("https://jsonplaceholder.typicode.com/users/1").then((res) =>
             res.json()
-          )
+          ),
+          fetch("https://jsonplaceholder.typicode.com/posts?userId=1").then(
+            (res) => res.json()
+          ),
         ]);
 
         setUser(userData);
+        setPosts(postsData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -152,7 +174,7 @@ const ProfileDashboard: React.FC = () => {
         activeTab={activeExperienceTab}
         setActiveTab={setActiveExperienceTab}
         selectedCard={selectedCard}
-        setSelectedCard={setSelectedCard}
+        setSelectedCard={setSelectedCard} posts = {posts}
       />
     ),
   };

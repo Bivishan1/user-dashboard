@@ -1,5 +1,6 @@
 "use client";
 import { MapPin, Calendar,  X, GraduationCap } from "lucide-react";
+import { Post } from "./ProfileDashboard";
 
 interface ExperienceDetails {
   programName: string;
@@ -25,24 +26,33 @@ interface ExperienceSectionProps {
   setActiveTab: (tab: string) => void;
   selectedCard: Experience | null;
   setSelectedCard: (card: Experience | null) => void;
+  posts: Post[];
 }
 
 const ExperienceSection: React.FC<ExperienceSectionProps> = ({
   activeTab,
   setActiveTab,
   selectedCard,
-  setSelectedCard,
+  setSelectedCard, posts
 }) => {
+
+  // Helper to get a post id or fallback to a static id
+  const getPostId = (index: number) => posts && posts[index] ? posts[index].id : index + 1;
+
   // Mock data for experience cards
   const experienceData: {
     Training: Experience[];
     Performance: Experience[];
+     Accolades: Experience[];
+    Education: Experience[];
+    'Job Titles': Experience[];
+    Masterclass: Experience[];
     All: Experience[];
     [key: string]: Experience[];
   } = {
     Training: [
       {
-        id: 1,
+        id: getPostId(0),
         title: "Studio Artist",
         organization: "Sarasota Opera Young Artist Program",
         location: "Sarasota Opera",
@@ -59,7 +69,7 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         },
       },
       {
-        id: 2,
+        id: getPostId(1),
         title: "Creative Director",
         organization: "Sarasota Opera Creative Director Program",
         location: "St. Petersburg Opera",
@@ -77,7 +87,7 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
     ],
     Performance: [
       {
-        id: 3,
+        id: getPostId(2),
         title: "Lead Vocalist",
         organization: "Metropolitan Opera House",
         location: "New York, NY",
@@ -93,6 +103,175 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         },
       },
     ],
+    Accolades: [
+      {
+        id: getPostId(3),
+        title: 'First Place Winner',
+        organization: 'National Opera Competition',
+        location: 'Chicago, IL',
+        date: 'Nov-2021',
+        type: 'Competition Award',
+        tags: ['First Place', 'Opera Competition'],
+        details: {
+          programName: 'National Opera Competition 2021',
+          position: 'Winner - Young Artist Division',
+          location: 'Chicago Opera Theatre, Chicago, IL, USA',
+          institution: 'National Opera Association',
+          date: 'Nov 2021'
+        }
+      },
+      {
+        id: getPostId(4),
+        title: 'Excellence in Sacred Music',
+        organization: 'American Guild of Organists',
+        location: 'Hartford, CT',
+        date: 'Jun-2022',
+        type: 'Recognition Award',
+        tags: ['Sacred Music', 'Excellence Award'],
+        details: {
+          programName: 'Sacred Music Excellence Recognition',
+          position: 'Recipient',
+          location: 'Hartford Convention Center, Hartford, CT, USA',
+          institution: 'American Guild of Organists - CT Chapter',
+          date: 'Jun 2022'
+        }
+      },
+      {
+        id: getPostId(5),
+        title: 'Rising Star Award',
+        organization: 'Connecticut Opera Society',
+        location: 'New Haven, CT',
+        date: 'Apr-2023',
+        type: 'Achievement Award',
+        tags: ['Rising Star', 'Community Recognition'],
+        details: {
+          programName: 'Annual Rising Star Recognition',
+          position: 'Award Recipient',
+          location: 'Shubert Theatre, New Haven, CT, USA',
+          institution: 'Connecticut Opera Society',
+          date: 'Apr 2023'
+        }
+      }
+    ],
+    Education: [
+      {
+        id: getPostId(6),
+        title: 'Master of Music',
+        organization: 'Yale School of Music',
+        location: 'New Haven, CT',
+        date: '2018-2020',
+        type: 'Graduate Degree',
+        tags: ['Master\'s Degree', 'Vocal Performance'],
+        details: {
+          programName: 'Master of Music in Vocal Performance',
+          position: 'Graduate Student',
+          location: 'Yale School of Music, New Haven, CT, USA',
+          institution: 'Yale University',
+          date: '2018 - 2020'
+        }
+      },
+      {
+        id: getPostId(7),
+        title: 'Bachelor of Arts',
+        organization: 'Wesleyan University',
+        location: 'Middletown, CT',
+        date: '2014-2018',
+        type: 'Undergraduate Degree',
+        tags: ['Bachelor\'s Degree', 'Music Major'],
+        details: {
+          programName: 'Bachelor of Arts in Music',
+          position: 'Undergraduate Student',
+          location: 'Wesleyan University, Middletown, CT, USA',
+          institution: 'Wesleyan University',
+          date: '2014 - 2018'
+        }
+      },
+      {
+        id: getPostId(8),
+        title: 'Certificate in Sacred Music',
+        organization: 'Westminster Choir College',
+        location: 'Princeton, NJ',
+        date: 'Sum-2019',
+        type: 'Professional Certificate',
+        tags: ['Certificate', 'Sacred Music'],
+        details: {
+          programName: 'Professional Certificate in Sacred Music',
+          position: 'Certificate Candidate',
+          location: 'Westminster Choir College, Princeton, NJ, USA',
+          institution: 'Westminster Choir College',
+          date: 'Summer 2019'
+        }
+      }
+    ],
+    'Job Titles': [
+      {
+        id: getPostId(9),
+        title: 'Music Director',
+        organization: 'Grace Community Church',
+        location: 'Stamford, CT',
+        date: '2021-Present',
+        type: 'Full-time Position',
+        tags: ['Music Director', 'Church Leadership'],
+        details: {
+          programName: 'Church Music Ministry Leadership',
+          position: 'Music Director',
+          location: 'Grace Community Church, Stamford, CT, USA',
+          institution: 'Grace Community Church',
+          date: '2021 - Present'
+        }
+      },
+      {
+        id: getPostId(10),
+        title: 'Private Voice Instructor',
+        organization: 'Fernandes Voice Studio',
+        location: 'Danbury, CT',
+        date: '2019-Present',
+        type: 'Self-Employed',
+        tags: ['Voice Teacher', 'Private Lessons'],
+        details: {
+          programName: 'Private Voice Instruction Business',
+          position: 'Owner & Instructor',
+          location: 'Fernandes Voice Studio, Danbury, CT, USA',
+          institution: 'Self-Employed',
+          date: '2019 - Present'
+        }
+      },
+    ],
+    Masterclass: [
+      {
+        id: getPostId(11),
+        title: 'Opera Workshop Masterclass',
+        organization: 'Manhattan School of Music',
+        location: 'New York, NY',
+        date: 'Feb-2023',
+        type: 'Teaching Engagement',
+        tags: ['Masterclass', 'Opera Technique'],
+        details: {
+          programName: 'Guest Artist Masterclass Series',
+          position: 'Guest Instructor',
+          location: 'Manhattan School of Music, New York, NY, USA',
+          institution: 'Manhattan School of Music',
+          date: 'Feb 2023'
+        }
+      },
+      {
+        id: getPostId(12),
+        title: 'Sacred Music Workshop',
+        organization: 'Connecticut Choral Directors',
+        location: 'Middletown, CT',
+        date: 'Nov-2022',
+        type: 'Professional Development',
+        tags: ['Sacred Music', 'Choral Direction'],
+        details: {
+          programName: 'Sacred Music Leadership Workshop',
+          position: 'Workshop Leader',
+          location: 'Wesleyan University, Middletown, CT, USA',
+          institution: 'Connecticut Choral Directors Association',
+          date: 'Nov 2022'
+        }
+      },
+      
+    ],
     All: [],
   };
 
@@ -100,6 +279,10 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
   experienceData.All = [
     ...experienceData.Training,
     ...experienceData.Performance,
+    ...experienceData.Accolades,
+    ...experienceData.Education,
+    ...experienceData['Job Titles'],
+    ...experienceData.Masterclass
   ];
 
   const tabs = [
