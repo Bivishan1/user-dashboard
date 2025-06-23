@@ -6,7 +6,7 @@ import ProfileHeader from "./ProfileHeader";
 import ExperienceSection from "./ExperienceSection";
 // import { ToastMessage } from './ui/toast';
 
-interface User {
+ interface User {
   id: number;
   name: string;
   username: string;
@@ -16,26 +16,9 @@ interface User {
     suite: string;
     city: string;
     zipcode: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
   };
 }
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
 
 interface ExperienceDetails {
   programName: string;
@@ -55,6 +38,8 @@ interface Experience {
   tags: string[];
   details: ExperienceDetails;
 }
+
+
 
 const highlights = [
   "Featured soloist at Carnegie Hall",
@@ -121,9 +106,8 @@ const LoadingSkeleton = () => (
 
 const ProfileDashboard: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [posts, setPosts] = useState<Post[]>([]);
   const [activeSection, setActiveSection] = useState("experience");
-const [activeExperienceTab, setActiveExperienceTab] = useState("Training");
+  const [activeExperienceTab, setActiveExperienceTab] = useState("Training");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState<Experience | null>(null);
@@ -134,17 +118,13 @@ const [activeExperienceTab, setActiveExperienceTab] = useState("Training");
       try {
         setLoading(true);
 
-        const [userData, postsData] = await Promise.all([
+        const [userData] = await Promise.all([
           fetch("https://jsonplaceholder.typicode.com/users/1").then((res) =>
             res.json()
-          ),
-          fetch("https://jsonplaceholder.typicode.com/posts?userId=1").then(
-            (res) => res.json()
-          ),
+          )
         ]);
 
         setUser(userData);
-        setPosts(postsData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -156,22 +136,25 @@ const [activeExperienceTab, setActiveExperienceTab] = useState("Training");
   }, []);
 
   // Reset sub-tab to "Training" whenever Experience section is activated
-useEffect(() => {
-  if (activeSection === "experience") {
-    setActiveExperienceTab("Training");
-  }
-}, [activeSection]);
+  useEffect(() => {
+    if (activeSection === "experience") {
+      setActiveExperienceTab("Training");
+    }
+  }, [activeSection]);
 
   // Section mapping
   const sectionMap: Record<string, React.ReactElement> = {
     about: <AboutSection />,
     media: <MediaSection />,
     highlights: <HighlightsSection />,
-    experience: <ExperienceSection  
+    experience: (
+      <ExperienceSection
         activeTab={activeExperienceTab}
         setActiveTab={setActiveExperienceTab}
         selectedCard={selectedCard}
-        setSelectedCard={setSelectedCard}   />,
+        setSelectedCard={setSelectedCard}
+      />
+    ),
   };
 
   // Get current section content

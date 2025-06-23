@@ -1,14 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { MapPin, Calendar, Building2, X, GraduationCap } from "lucide-react";
-import * as Dialog from "@radix-ui/react-dialog";
+import { MapPin, Calendar,  X, GraduationCap } from "lucide-react";
 
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
 interface ExperienceDetails {
   programName: string;
   position: string;
