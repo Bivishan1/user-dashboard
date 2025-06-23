@@ -92,7 +92,6 @@ NEXT_PUBLIC_API_URL=https://jsonplaceholder.typicode.com
 │   │   ├── SidebarNavigation.tsx
 │   │   ├── TopNavigation.tsx
 │   │   └── ui
-│   │       ├── Avatar.tsx
 │   │       ├── Button.tsx
 │   │       ├── SelectDropDown.tsx
 │   │       └── toast.tsx

@@ -1,4 +1,3 @@
-import React from 'react';
 import { User, PlayCircle, Star, Briefcase, X } from 'lucide-react';
 import { Button } from './ui/Button';
 
