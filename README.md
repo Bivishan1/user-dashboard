@@ -94,7 +94,6 @@ NEXT_PUBLIC_API_URL=https://jsonplaceholder.typicode.com
 │   │   └── ui
 │   │       ├── Button.tsx
 │   │       ├── SelectDropDown.tsx
-│   │       └── toast.tsx
 │   ├── types
 │   │   ├── experience.ts
 │   │   ├── post.ts
