@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapPin, CheckCircle } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
 import { ProfileHeaderProps } from '@/types/profile';
+import Image from 'next/image';
 
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
@@ -28,12 +28,10 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="flex items-center space-x-6">
         <div className="relative">
-          <Avatar className="w-20 h-20">
-            <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" />
-            <AvatarFallback className="text-xl font-semibold bg-blue-100 text-blue-700">
-              {displayName.split(' ').map(n => n[0]).join('')}
-            </AvatarFallback>
-          </Avatar>
+          <div className="w-20 h-20 relative flex shrink-0 overflow-hidden rounded-full">
+            <Image src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="avatar placeholder" height={100} width={100}/>
+          
+          </div>
           <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1">
             <CheckCircle className="h-4 w-4 text-white" />
           </div>
