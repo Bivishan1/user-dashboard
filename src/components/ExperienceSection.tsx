@@ -1,25 +1,8 @@
 "use client";
 import { MapPin, Calendar,  X, GraduationCap } from "lucide-react";
-import { Post } from "./ProfileDashboard";
+import { Post } from "../types/post"; // Assuming you have a Post type defined
+import { Experience } from "../types/experience"; // Assuming you have an Experience type defined
 
-interface ExperienceDetails {
-  programName: string;
-  position: string;
-  location: string;
-  institution: string;
-  date: string;
-}
-
-interface Experience {
-  id: number;
-  title: string;
-  organization: string;
-  location: string;
-  date: string;
-  type: string;
-  tags: string[];
-  details: ExperienceDetails;
-}
 
 interface ExperienceSectionProps {
   activeTab: string;
@@ -40,16 +23,8 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({
   const getPostId = (index: number) => posts && posts[index] ? posts[index].id : index + 1;
 
   // Mock data for experience cards
-  const experienceData: {
-    Training: Experience[];
-    Performance: Experience[];
-     Accolades: Experience[];
-    Education: Experience[];
-    'Job Titles': Experience[];
-    Masterclass: Experience[];
-    All: Experience[];
-    [key: string]: Experience[];
-  } = {
+  const experienceData:Record<string, Experience[]> = {
+   
     Training: [
       {
         id: getPostId(0),

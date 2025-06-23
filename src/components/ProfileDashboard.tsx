@@ -5,58 +5,10 @@ import SidebarNavigation from "./SidebarNavigation";
 import ProfileHeader from "./ProfileHeader";
 import ExperienceSection from "./ExperienceSection";
 // import { ToastMessage } from './ui/toast';
-
-export interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  };
-}
-
-export interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
-interface ExperienceDetails {
-  programName: string;
-  position: string;
-  location: string;
-  institution: string;
-  date: string;
-}
-
-interface Experience {
-  id: number;
-  title: string;
-  organization: string;
-  location: string;
-  date: string;
-  type: string;
-  tags: string[];
-  details: ExperienceDetails;
-}
-
-
+import {User} from "../types/user";
+import { Post } from "../types/post"; // Assuming you have a Post type defined
+import { Experience } from "../types/experience"; // Assuming you have an Experience type defined
+import { fetchUserData } from "@/utils/fetchData";
 
 const highlights = [
   "Featured soloist at Carnegie Hall",
@@ -136,14 +88,7 @@ const ProfileDashboard: React.FC = () => {
       try {
         setLoading(true);
 
-        const [userData, postsData] = await Promise.all([
-          fetch("https://jsonplaceholder.typicode.com/users/1").then((res) =>
-            res.json()
-          ),
-          fetch("https://jsonplaceholder.typicode.com/posts?userId=1").then(
-            (res) => res.json()
-          ),
-        ]);
+        const { userData, postsData } = await fetchUserData();
 
         setUser(userData);
         setPosts(postsData);

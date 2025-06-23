@@ -1,17 +1,8 @@
 import React from 'react';
 import { MapPin, CheckCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
+import { ProfileHeaderProps } from '@/types/profile';
 
-interface ProfileHeaderProps {
-  user: {
-    name: string;
-    email: string;
-    address: {
-      city: string;
-      zipcode: string;
-    };
-  } | null;
-}
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
   if (!user) {
